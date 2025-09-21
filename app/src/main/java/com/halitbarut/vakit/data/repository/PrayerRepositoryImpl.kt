@@ -121,7 +121,11 @@ class PrayerRepositoryImpl @Inject constructor(
         val current = prayerDao.getPrayerStats() ?: return@withContext
         if (!current.isWitrTracked && prayerType == PrayerType.WITR) return@withContext
         val sanitizedDebt = newDebt.coerceAtLeast(0)
-        val updated = current.updateDebt(prayerType, sanitizedDebt, clock.millis())
+        val completedCount = current.completedCount(prayerType)
+        val totalDebt = (completedCount.toLong() + sanitizedDebt.toLong())
+            .coerceAtMost(Int.MAX_VALUE.toLong())
+            .toInt()
+        val updated = current.updateTotalDebt(prayerType, totalDebt, clock.millis())
         prayerDao.upsert(updated)
     }
 
@@ -281,30 +285,30 @@ class PrayerRepositoryImpl @Inject constructor(
         )
     }
 
-    private fun PrayerEntity.updateDebt(prayerType: PrayerType, newDebt: Int, timestamp: Long): PrayerEntity =
+    private fun PrayerEntity.updateTotalDebt(prayerType: PrayerType, debtTotal: Int, timestamp: Long): PrayerEntity =
         when (prayerType) {
             PrayerType.FAJR -> copy(
-                fajrDebt = newDebt,
+                fajrDebt = debtTotal,
                 fajrLastUpdateMillis = timestamp,
             )
             PrayerType.DHUHR -> copy(
-                dhuhrDebt = newDebt,
+                dhuhrDebt = debtTotal,
                 dhuhrLastUpdateMillis = timestamp,
             )
             PrayerType.ASR -> copy(
-                asrDebt = newDebt,
+                asrDebt = debtTotal,
                 asrLastUpdateMillis = timestamp,
             )
             PrayerType.MAGHRIB -> copy(
-                maghribDebt = newDebt,
+                maghribDebt = debtTotal,
                 maghribLastUpdateMillis = timestamp,
             )
             PrayerType.ISHA -> copy(
-                ishaDebt = newDebt,
+                ishaDebt = debtTotal,
                 ishaLastUpdateMillis = timestamp,
             )
             PrayerType.WITR -> copy(
-                witrDebt = newDebt,
+                witrDebt = debtTotal,
                 witrLastUpdateMillis = timestamp,
             )
         }

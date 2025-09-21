@@ -164,6 +164,35 @@ class PrayerRepositoryImplTest {
     }
 
     @Test
+    fun manuallyUpdateDebt_usesEnteredRemainingValue_whenCompletionsExist() = runTest(testDispatcher) {
+        val now = clock.instant().toEpochMilli()
+        repository.initializePrayerStats(
+            debts = PrayerType.ordered.associateWith { 50 },
+            isWitrTracked = true,
+            nowMillis = now,
+        )
+
+        fakeDao.upsert(
+            fakeDao.current()!!.copy(
+                dhuhrDebt = 50,
+                dhuhrCompleted = 15,
+                dhuhrCompletedToday = 4,
+                dhuhrLastUpdateMillis = 0,
+            ),
+        )
+
+        repository.manuallyUpdateDebt(PrayerType.DHUHR, newDebt = 67)
+
+        val stats = repository.getPrayerStats()
+        assertNotNull(stats)
+        val dhuhr = stats!!.prayers.first { it.type == PrayerType.DHUHR }
+        assertEquals(15, dhuhr.completed)
+        assertEquals(82, dhuhr.debt)
+        assertEquals(67, dhuhr.remaining)
+        assertEquals(now, dhuhr.lastUpdateMillis)
+    }
+
+    @Test
     fun refreshDailyProgress_resetsDailyCounters_andUpdatesBest() = runTest(testDispatcher) {
         val now = clock.instant().toEpochMilli()
         val entity = PrayerEntity(

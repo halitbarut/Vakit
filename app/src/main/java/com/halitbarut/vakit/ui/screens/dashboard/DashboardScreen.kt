@@ -1,6 +1,6 @@
 package com.halitbarut.vakit.ui.screens.dashboard
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,37 +12,37 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.halitbarut.vakit.domain.model.PrayerType
 import com.halitbarut.vakit.navigation.VakitDestination
 import com.halitbarut.vakit.ui.components.EditPrayerDialog
@@ -72,7 +72,7 @@ fun DashboardRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
     state: DashboardUiState,
@@ -88,29 +88,8 @@ fun DashboardScreen(
 ) {
     val hasData = state.prayerCards.isNotEmpty()
     Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Bugünkü İlerlemen",
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                },
-                actions = {
-                    FilledIconButton(
-                        onClick = onNavigateToSettings,
-                        colors = IconButtonDefaults.filledIconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        ),
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Settings,
-                            contentDescription = "Ayarlar",
-                        )
-                    }
-                },
-            )
-        },
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+        topBar = { DashboardTopBar(onNavigateToSettings) },
         bottomBar = {
             VakitBottomBar(
                 currentDestination = VakitDestination.Dashboard,
@@ -124,45 +103,50 @@ fun DashboardScreen(
             )
         },
     ) { innerPadding ->
-        Surface(modifier = Modifier
-            .padding(innerPadding)
-            .fillMaxSize()
-            .padding(horizontal = 20.dp)) {
-            when {
-                state.isLoading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        CircularProgressIndicator()
-                    }
+        when {
+            state.isLoading -> {
+                Box(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator()
                 }
-                hasData -> {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(vertical = 20.dp),
-                        verticalArrangement = Arrangement.spacedBy(24.dp),
-                    ) {
+            }
+            hasData -> {
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .fillMaxSize(),
+                    contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                ) {
+                    item {
                         SummaryCard(
                             totalRemaining = state.totalRemaining,
                             totalCompletedToday = state.totalCompletedToday,
                         )
+                    }
+                    item {
                         PrayerGrid(
                             cards = state.prayerCards,
                             onIncreaseDebt = onIncreaseDebt,
                             onComplete = onComplete,
                             onEdit = onEdit,
                         )
-                        EstimatedFinishCard(
-                            estimatedDate = state.estimatedFinishDate,
-                            averageDaily = state.averageDailyCompletion,
-                            totalRemaining = state.totalRemaining,
-                            bestDailyCompletion = state.bestDailyCompletion,
-                        )
+                    }
+                    item {
+                        EstimatedFinishCard(estimatedDate = state.estimatedFinishDate)
                     }
                 }
-                else -> {
+            }
+            else -> {
+                Box(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .fillMaxSize(),
+                ) {
                     EmptyDashboardState(onNavigateToOnboarding)
                 }
             }
@@ -179,17 +163,55 @@ fun DashboardScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DashboardTopBar(onNavigateToSettings: () -> Unit) {
+    TopAppBar(
+        title = {
+            Text(
+                text = "Bugünkü İlerlemen",
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.SemiBold,
+            )
+        },
+        actions = {
+            IconButton(
+                onClick = onNavigateToSettings,
+                modifier = Modifier.padding(end = 4.dp),
+                colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                ),
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Settings,
+                    contentDescription = "Ayarlar",
+                )
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+        ),
+    )
+}
+
 @Composable
 private fun SummaryCard(
     totalRemaining: Int,
     totalCompletedToday: Int,
 ) {
-    ElevatedCard(modifier = Modifier.fillMaxWidth()) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 24.dp),
+                .padding(horizontal = 20.dp, vertical = 20.dp),
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
             SummaryColumn(
                 title = "Toplam Kalan",
@@ -198,9 +220,8 @@ private fun SummaryCard(
             )
             VerticalDivider(
                 modifier = Modifier
-                    .padding(horizontal = 20.dp)
-                    .height(56.dp)
-                    .width(1.dp),
+                    .padding(horizontal = 16.dp)
+                    .height(56.dp),
             )
             SummaryColumn(
                 title = "Bugün Kıldın",
@@ -220,22 +241,22 @@ private fun RowScope.SummaryColumn(
     Column(
         modifier = Modifier.weight(1f),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(6.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Text(
             text = value,
-            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+            style = MaterialTheme.typography.displaySmall,
             color = valueColor,
+            fontWeight = FontWeight.Bold,
         )
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun PrayerGrid(
     cards: List<PrayerCardUiState>,
@@ -247,81 +268,99 @@ private fun PrayerGrid(
         Text(
             text = "Hızlı Ekle",
             style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.SemiBold,
         )
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            items(cards, key = { it.prayerType.name }) { card ->
-                PrayerCard(
-                    card = card,
-                    onIncreaseDebt = onIncreaseDebt,
-                    onComplete = onComplete,
-                    onEdit = onEdit,
-                )
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            cards.chunked(2).forEach { rowCards ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    rowCards.forEach { card ->
+                        PrayerCard(
+                            card = card,
+                            onIncreaseDebt = onIncreaseDebt,
+                            onComplete = onComplete,
+                            onEdit = onEdit,
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+                    if (rowCards.size == 1) {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PrayerCard(
     card: PrayerCardUiState,
     onIncreaseDebt: (PrayerType) -> Unit,
     onComplete: (PrayerType) -> Unit,
     onEdit: (PrayerType) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    ElevatedCard(modifier = Modifier.fillMaxWidth()) {
+    Card(
+        modifier = modifier,
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+        ),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 14.dp),
+                .padding(horizontal = 14.dp, vertical = 12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Column(
+                Text(
+                    text = card.displayName,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                )
+                IconButton(
+                    onClick = { onEdit(card.prayerType) },
+                    modifier = Modifier.size(32.dp),
+                    colors = IconButtonDefaults.iconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    ),
                 ) {
-                    Text(
-                        text = card.displayName,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                    )
-                    Text(
-                        text = "${card.remainingText} kaldı",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Text(
-                        text = card.lastUpdateText,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-                IconButton(onClick = { onEdit(card.prayerType) }) {
                     Icon(
                         imageVector = Icons.Outlined.Edit,
                         contentDescription = "Borcu düzenle",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    FilledIconButton(
+                Text(
+                    text = "${card.remainingText} kaldı",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.weight(1f),
+                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    FilledTonalIconButton(
                         onClick = { onComplete(card.prayerType) },
+                        modifier = Modifier.size(32.dp),
                         enabled = card.isIncrementEnabled,
-                        colors = IconButtonDefaults.filledIconButtonColors(
+                        colors = IconButtonDefaults.filledTonalIconButtonColors(
                             containerColor = MaterialTheme.colorScheme.surfaceVariant,
                             contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                         ),
@@ -333,6 +372,7 @@ private fun PrayerCard(
                     }
                     FilledIconButton(
                         onClick = { onIncreaseDebt(card.prayerType) },
+                        modifier = Modifier.size(32.dp),
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Add,
@@ -341,18 +381,24 @@ private fun PrayerCard(
                     }
                 }
             }
+            Text(
+                text = card.lastUpdateText,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
     }
 }
 
 @Composable
-private fun EstimatedFinishCard(
-    estimatedDate: String?,
-    averageDaily: Int,
-    totalRemaining: Int,
-    bestDailyCompletion: Int,
-) {
-    ElevatedCard(modifier = Modifier.fillMaxWidth()) {
+private fun EstimatedFinishCard(estimatedDate: String?) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -361,63 +407,23 @@ private fun EstimatedFinishCard(
         ) {
             Text(
                 text = "Tahmini Bitiş Tarihi",
-                style = MaterialTheme.typography.labelLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Text(
                 text = estimatedDate ?: "Tempo belirlemek için birkaç vakit ekleyin",
                 style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.secondary,
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                EstimatedMetric(
-                    label = "Günlük Ortalama",
-                    value = formatCount(averageDaily),
-                )
-                EstimatedMetric(
-                    label = "En İyi Gün",
-                    value = formatCount(bestDailyCompletion),
-                )
-                EstimatedMetric(
-                    label = "Kalan Toplam",
-                    value = formatCount(totalRemaining),
-                )
-            }
         }
-    }
-}
-
-@Composable
-private fun EstimatedMetric(
-    label: String,
-    value: String,
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-    ) {
-        Text(
-            text = value,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-        )
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
     }
 }
 
 @Composable
 private fun EmptyDashboardState(onNavigateToOnboarding: () -> Unit) {
     Column(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
