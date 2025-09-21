@@ -3,30 +3,37 @@ package com.halitbarut.vakit.ui.screens.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.halitbarut.vakit.data.repository.UserPreferencesRepository
+import com.halitbarut.vakit.domain.usecase.ExportPrayerDataUseCase
 import com.halitbarut.vakit.domain.usecase.ObservePrayerStatsUseCase
 import com.halitbarut.vakit.domain.usecase.ResetPrayerStatsUseCase
 import com.halitbarut.vakit.domain.usecase.ToggleWitrTrackingUseCase
 import com.halitbarut.vakit.notifications.NotificationScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.flow.combine
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val observePrayerStatsUseCase: ObservePrayerStatsUseCase,
     private val toggleWitrTrackingUseCase: ToggleWitrTrackingUseCase,
     private val resetPrayerStatsUseCase: ResetPrayerStatsUseCase,
+    private val exportPrayerDataUseCase: ExportPrayerDataUseCase,
     private val userPreferencesRepository: UserPreferencesRepository,
     private val notificationScheduler: NotificationScheduler,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState
+
+    private val _events = MutableSharedFlow<SettingsEvent>()
+    val events = _events.asSharedFlow()
 
     private var hasInitializedScheduler = false
 
@@ -52,6 +59,25 @@ class SettingsViewModel @Inject constructor(
                         }
                     }
                 }
+        }
+    }
+
+    fun onExportDataClicked() {
+        if (_uiState.value.isExporting) return
+        viewModelScope.launch {
+            _uiState.update { it.copy(isExporting = true) }
+            try {
+                val csv = exportPrayerDataUseCase()
+                if (csv.isBlank()) {
+                    _events.emit(SettingsEvent.ExportFailed)
+                } else {
+                    _events.emit(SettingsEvent.ShareCsv(csv))
+                }
+            } catch (error: Exception) {
+                _events.emit(SettingsEvent.ExportFailed)
+            } finally {
+                _uiState.update { it.copy(isExporting = false) }
+            }
         }
     }
 

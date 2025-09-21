@@ -170,22 +170,37 @@ private fun OnboardingContent(
                 }
             }
 
-            state.prayerInputs.filter { it.prayerType != PrayerType.WITR }.forEach { input ->
-                PrayerInputCard(
-                    title = input.prayerType.displayName,
-                    years = input.years,
-                    months = input.months,
-                    days = input.days,
-                    onYearsChanged = { onYearsChanged(input.prayerType, it) },
-                    onMonthsChanged = { onMonthsChanged(input.prayerType, it) },
-                    onDaysChanged = { onDaysChanged(input.prayerType, it) },
-                )
-            }
+            val witrInput = state.prayerInputs.firstOrNull { it.prayerType == PrayerType.WITR }
+            state.prayerInputs
+                .filter { it.prayerType != PrayerType.WITR }
+                .forEach { input ->
+                    PrayerInputCard(
+                        title = input.prayerType.displayName,
+                        years = input.years,
+                        months = input.months,
+                        days = input.days,
+                        onYearsChanged = { onYearsChanged(input.prayerType, it) },
+                        onMonthsChanged = { onMonthsChanged(input.prayerType, it) },
+                        onDaysChanged = { onDaysChanged(input.prayerType, it) },
+                    )
+                }
 
             WitrTrackingCard(
                 isChecked = state.isWitrTracked,
                 onToggle = onToggleWitr,
             )
+
+            if (state.isWitrTracked && witrInput != null) {
+                PrayerInputCard(
+                    title = witrInput.prayerType.displayName,
+                    years = witrInput.years,
+                    months = witrInput.months,
+                    days = witrInput.days,
+                    onYearsChanged = { onYearsChanged(witrInput.prayerType, it) },
+                    onMonthsChanged = { onMonthsChanged(witrInput.prayerType, it) },
+                    onDaysChanged = { onDaysChanged(witrInput.prayerType, it) },
+                )
+            }
 
             Spacer(modifier = Modifier.height(96.dp))
         }

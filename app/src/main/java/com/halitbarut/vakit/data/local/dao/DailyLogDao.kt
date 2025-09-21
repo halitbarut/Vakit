@@ -17,4 +17,7 @@ interface DailyLogDao {
 
     @Query("SELECT * FROM daily_logs WHERE dateEpochDay BETWEEN :startDate AND :endDate ORDER BY dateEpochDay ASC")
     fun getLogsForDateRange(startDate: Long, endDate: Long): Flow<List<DailyLogEntity>>
+
+    @Query("DELETE FROM daily_logs")
+    suspend fun clearAll()
 }

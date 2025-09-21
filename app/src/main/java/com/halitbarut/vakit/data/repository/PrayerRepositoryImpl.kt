@@ -146,6 +146,7 @@ class PrayerRepositoryImpl @Inject constructor(
 
     override suspend fun resetAll() = withContext(ioDispatcher) {
         prayerDao.clearAll()
+        dailyLogDao.clearAll()
     }
 
     override suspend fun refreshDailyProgress(nowMillis: Long) = withContext(ioDispatcher) {
