@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stitch Design</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0A2342",
+                        "secondary": "#FFB100",
+                        "background": "#F8F7F4",
+                        "surface": "#FFFFFF",
+                        "text-color": "#1D1D1D",
+                        "success": "#28A745",
+                        "danger": "#DC3545"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.75rem",
+                        "lg": "1rem",
+                        "full": "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-text-color font-sans">
+<div class="flex flex-col min-h-screen">
+<header class="p-4 bg-background sticky top-0 z-10">
+<h1 class="text-xl font-bold text-center text-text-color">İstatistikler</h1>
+</header>
+<main class="flex-grow p-4 space-y-6">
+<div class="bg-surface rounded-lg shadow-sm p-4">
+<h2 class="text-lg font-bold text-text-color mb-2">Genel İlerleme</h2>
+<div class="flex items-center justify-between mb-4">
+<span class="text-sm text-text-color/70">Kalan Borç</span>
+<span class="text-sm text-text-color/70">Zaman</span>
+</div>
+<div class="w-full h-48 flex items-center justify-center bg-gray-100 rounded">
+<svg height="100%" preserveAspectRatio="none" viewBox="0 0 300 150" width="100%">
+<polyline fill="none" points="0,120 50,90 100,100 150,60 200,70 250,30 300,40" stroke="#0A2342" stroke-width="2"></polyline>
+</svg>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-4 text-center">
+<div class="bg-surface rounded-lg shadow-sm p-4">
+<p class="text-sm text-text-color/70">Ortalama Hız</p>
+<p class="text-2xl font-bold text-primary">20</p>
+</div>
+<div class="bg-surface rounded-lg shadow-sm p-4">
+<p class="text-sm text-text-color/70">En İyi Gün</p>
+<p class="text-2xl font-bold text-success">15</p>
+</div>
+<div class="bg-surface rounded-lg shadow-sm p-4">
+<p class="text-sm text-text-color/70">Toplam Kılınan</p>
+<p class="text-2xl font-bold text-secondary">150</p>
+</div>
+</div>
+<div class="bg-surface rounded-lg shadow-sm p-4">
+<h2 class="text-lg font-bold text-text-color mb-4">Vakitlere Göre Dağılım</h2>
+<div class="w-full h-56 flex items-center justify-center">
+<svg height="200" viewBox="0 0 100 100" width="200">
+<circle cx="50" cy="50" fill="none" r="40" stroke="#F8F7F4" stroke-width="12"></circle>
+<circle cx="50" cy="50" fill="none" r="40" stroke="#0A2342" stroke-dasharray="83.77 251.32" stroke-dashoffset="0" stroke-width="12"></circle>
+<circle cx="50" cy="50" fill="none" r="40" stroke="#FFB100" stroke-dasharray="62.83 251.32" stroke-dashoffset="-83.77" stroke-width="12"></circle>
+<circle cx="50" cy="50" fill="none" r="40" stroke="#28A745" stroke-dasharray="41.88 251.32" stroke-dashoffset="-146.6" stroke-width="12"></circle>
+<circle cx="50" cy="50" fill="none" r="40" stroke="#DC3545" stroke-dasharray="31.41 251.32" stroke-dashoffset="-188.48" stroke-width="12"></circle>
+<circle cx="50" cy="50" fill="none" r="40" stroke="#6c757d" stroke-dasharray="20.94 251.32" stroke-dashoffset="-219.89" stroke-width="12"></circle>
+<circle cx="50" cy="50" fill="none" r="40" stroke="#17a2b8" stroke-dasharray="10.47 251.32" stroke-dashoffset="-240.83" stroke-width="12"></circle>
+</svg>
+</div>
+<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+<div class="flex items-center"><span class="w-3 h-3 rounded-full bg-primary mr-2"></span>Sabah</div>
+<div class="flex items-center"><span class="w-3 h-3 rounded-full bg-secondary mr-2"></span>Öğle</div>
+<div class="flex items-center"><span class="w-3 h-3 rounded-full bg-success mr-2"></span>İkindi</div>
+<div class="flex items-center"><span class="w-3 h-3 rounded-full bg-danger mr-2"></span>Akşam</div>
+<div class="flex items-center"><span class="w-3 h-3 rounded-full bg-gray-500 mr-2" style="background-color: #6c757d;"></span>Yatsı</div>
+<div class="flex items-center"><span class="w-3 h-3 rounded-full bg-info mr-2" style="background-color: #17a2b8;"></span>Vitir</div>
+</div>
+</div>
+</main>
+<footer class="sticky bottom-0 bg-surface border-t border-gray-200">
+<nav class="flex justify-around p-2">
+<a class="flex flex-col items-center justify-center text-text-color/60 w-full py-1" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-xs">Ana Ekran</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary w-full py-1 rounded-full bg-primary/10" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bar_chart</span>
+<span class="text-xs font-semibold">İstatistikler</span>
+</a>
+</nav>
+</footer>
+</div>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+</body></html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Prayer Count</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#092044",
+              "background-light": "#f6f7f8",
+              "background-dark": "#111721",
+            },
+            fontFamily: {
+              "display": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display">
+<div class="relative min-h-screen bg-background-light dark:bg-background-dark">
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
+<div class="w-full max-w-sm mx-auto bg-background-light dark:bg-background-dark rounded-xl shadow-lg p-6 flex flex-col gap-6">
+<div class="text-center">
+<h1 class="text-lg font-bold text-[#1D1D1D] dark:text-white">Öğle Namazı Borcunu Düzenle</h1>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-[#1D1D1D] dark:text-white/80" for="debt-input">Yeni Toplam Borç</label>
+<input class="form-input w-full h-14 px-4 text-center text-2xl font-bold bg-background-light dark:bg-background-dark border border-black/10 dark:border-white/10 rounded-lg text-[#1D1D1D] dark:text-white focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" id="debt-input" type="number" value="357"/>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="h-12 w-full flex items-center justify-center rounded-lg text-sm font-bold bg-primary/10 dark:bg-primary/20 text-primary transition-colors hover:bg-primary/20 dark:hover:bg-primary/30">
+                        İptal
+                    </button>
+<button class="h-12 w-full flex items-center justify-center rounded-lg text-sm font-bold bg-primary text-white transition-opacity hover:opacity-90">
+                        Kaydet
+                    </button>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

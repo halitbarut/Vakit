@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Vakit</string>
+    <string name="notification_daily_title">Vakit Hatırlatması</string>
+    <string name="notification_daily_body">Bugün kaza namazı kılmayı unutma!</string>
+</resources>

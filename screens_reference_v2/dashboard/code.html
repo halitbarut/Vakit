@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Qada Tracker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0A2342",
+            "secondary": "#FFB100",
+            "background": "#F8F7F4",
+            "surface": "#FFFFFF",
+            "text": "#1D1D1D",
+            "success": "#28A745"
+          },
+          fontFamily: {
+            "sans": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.75rem",
+            "lg": "1rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-text">
+<div class="max-w-md mx-auto min-h-screen flex flex-col">
+<header class="flex justify-between items-center p-4">
+<h1 class="text-2xl font-bold text-text">Bugünkü İlerlemen</h1>
+<button class="p-2">
+<span class="material-symbols-outlined text-text">
+          settings
+        </span>
+</button>
+</header>
+<main class="flex-grow px-4 space-y-6">
+<div class="bg-surface rounded-lg shadow-sm p-6 flex justify-around">
+<div class="text-center">
+<p class="text-sm font-medium text-text/70">Toplam Kalan</p>
+<p class="text-4xl font-bold text-primary">1.250</p>
+</div>
+<div class="border-l border-gray-200"></div>
+<div class="text-center">
+<p class="text-sm font-medium text-text/70">Bugün Kıldın</p>
+<p class="text-4xl font-bold text-success">15</p>
+</div>
+</div>
+<div>
+<h2 class="text-xl font-bold text-text mb-4">Hızlı Ekle</h2>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface rounded-lg p-4 flex justify-between items-center relative">
+<div class="flex-grow">
+<h3 class="font-bold text-text">Sabah</h3>
+<p class="text-sm text-text/60">250 kaldı</p>
+<p class="text-xs text-text/40 mt-1">Son Değişiklik: 15.07.2024 10:30</p>
+</div>
+<div class="flex items-center space-x-2">
+<button class="bg-gray-200 text-gray-600 rounded-full w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-base">remove</span>
+</button>
+<button class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-base">add</span>
+</button>
+</div>
+<button class="absolute top-2 right-2 p-1 text-gray-400">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<div class="bg-surface rounded-lg p-4 flex justify-between items-center relative">
+<div class="flex-grow">
+<h3 class="font-bold text-text">Öğle</h3>
+<p class="text-sm text-text/60">250 kaldı</p>
+<p class="text-xs text-text/40 mt-1">Son Değişiklik: 15.07.2024 13:45</p>
+</div>
+<div class="flex items-center space-x-2">
+<button class="bg-gray-200 text-gray-600 rounded-full w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-base">remove</span>
+</button>
+<button class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-base">add</span>
+</button>
+</div>
+<button class="absolute top-2 right-2 p-1 text-gray-400">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<div class="bg-surface rounded-lg p-4 flex justify-between items-center relative">
+<div class="flex-grow">
+<h3 class="font-bold text-text">İkindi</h3>
+<p class="text-sm text-text/60">250 kaldı</p>
+<p class="text-xs text-text/40 mt-1">Son Değişiklik: 15.07.2024 16:20</p>
+</div>
+<div class="flex items-center space-x-2">
+<button class="bg-gray-200 text-gray-600 rounded-full w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-base">remove</span>
+</button>
+<button class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-base">add</span>
+</button>
+</div>
+<button class="absolute top-2 right-2 p-1 text-gray-400">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<div class="bg-surface rounded-lg p-4 flex justify-between items-center relative">
+<div class="flex-grow">
+<h3 class="font-bold text-text">Akşam</h3>
+<p class="text-sm text-text/60">250 kaldı</p>
+<p class="text-xs text-text/40 mt-1">Son Değişiklik: 15.07.2024 19:05</p>
+</div>
+<div class="flex items-center space-x-2">
+<button class="bg-gray-200 text-gray-600 rounded-full w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-base">remove</span>
+</button>
+<button class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-base">add</span>
+</button>
+</div>
+<button class="absolute top-2 right-2 p-1 text-gray-400">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<div class="bg-surface rounded-lg p-4 flex justify-between items-center relative">
+<div class="flex-grow">
+<h3 class="font-bold text-text">Yatsı</h3>
+<p class="text-sm text-text/60">250 kaldı</p>
+<p class="text-xs text-text/40 mt-1">Son Değişiklik: 15.07.2024 21:15</p>
+</div>
+<div class="flex items-center space-x-2">
+<button class="bg-gray-200 text-gray-600 rounded-full w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-base">remove</span>
+</button>
+<button class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-base">add</span>
+</button>
+</div>
+<button class="absolute top-2 right-2 p-1 text-gray-400">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<div class="bg-surface rounded-lg p-4 flex justify-between items-center relative">
+<div class="flex-grow">
+<h3 class="font-bold text-text">Vitir</h3>
+<p class="text-sm text-text/60">250 kaldı</p>
+<p class="text-xs text-text/40 mt-1">Son Değişiklik: 15.07.2024 21:20</p>
+</div>
+<div class="flex items-center space-x-2">
+<button class="bg-gray-200 text-gray-600 rounded-full w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-base">remove</span>
+</button>
+<button class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-base">add</span>
+</button>
+</div>
+<button class="absolute top-2 right-2 p-1 text-gray-400">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-surface rounded-lg p-4">
+<p class="text-sm font-medium text-text/70">Tahmini Bitiş Tarihi</p>
+<p class="text-2xl font-bold text-secondary">15 Ağustos 2025</p>
+</div>
+</main>
+<footer class="sticky bottom-0 bg-surface/80 backdrop-blur-sm border-t border-gray-200">
+<nav class="flex justify-around items-center p-2">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-xs font-medium">Ana Ekran</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-text/60" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="text-xs font-medium">İstatistikler</span>
+</a>
+</nav>
+</footer>
+</div>
+
+</body></html>

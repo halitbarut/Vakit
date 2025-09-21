@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ayarlar</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0A2342",
+            "secondary": "#FFB100",
+            "background": "#F8F7F4",
+            "surface": "#FFFFFF",
+            "text": "#1D1D1D",
+            "danger": "#D32F2F",
+          },
+          fontFamily: {
+            "sans": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+  </style>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-sans text-text">
+<div class="min-h-screen flex flex-col">
+<header class="bg-background sticky top-0 z-10 shadow-sm">
+<div class="container mx-auto px-4 py-3 flex items-center">
+<button class="text-text">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</button>
+<h1 class="text-xl font-bold text-text flex-grow text-center">Ayarlar</h1>
+<div class="w-6"></div> 
+</div>
+</header>
+<main class="flex-grow p-4 space-y-6">
+<section>
+<h2 class="text-sm font-semibold text-text/60 mb-2 px-2">Genel</h2>
+<div class="bg-surface rounded-lg shadow-sm overflow-hidden">
+<div class="flex items-center justify-between p-4 border-b border-background">
+<label class="text-base text-text cursor-pointer" for="vitir-toggle">Vitir Namazı Takibi</label>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="vitir-toggle" type="checkbox"/>
+<div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-4">
+<label class="text-base text-text cursor-pointer" for="notifications-toggle">Bildirimler</label>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="notifications-toggle" type="checkbox"/>
+<div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-sm font-semibold text-text/60 mb-2 px-2">Veri Yönetimi</h2>
+<div class="bg-surface rounded-lg shadow-sm overflow-hidden">
+<button class="w-full flex items-center justify-between p-4 border-b border-background text-left">
+<span class="text-base text-text">Verileri Dışa Aktar</span>
+<span class="material-symbols-outlined text-text/50">arrow_forward_ios</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 text-left">
+<span class="text-base text-danger">Tüm Verileri Sıfırla</span>
+<span class="material-symbols-outlined text-danger">delete</span>
+</button>
+</div>
+</section>
+<section>
+<h2 class="text-sm font-semibold text-text/60 mb-2 px-2">Hakkında</h2>
+<div class="bg-surface rounded-lg shadow-sm overflow-hidden">
+<button class="w-full flex items-center justify-between p-4 border-b border-background text-left">
+<span class="text-base text-text">Uygulamayı Değerlendir</span>
+<span class="material-symbols-outlined text-text/50">arrow_forward_ios</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 text-left">
+<span class="text-base text-text">Gizlilik Politikası</span>
+<span class="material-symbols-outlined text-text/50">arrow_forward_ios</span>
+</button>
+</div>
+</section>
+</main>
+<footer class="py-6">
+<p class="text-center text-sm text-text/50">Vakit v1.0.0</p>
+</footer>
+</div>
+
+</body></html>
