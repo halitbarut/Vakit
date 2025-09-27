@@ -32,3 +32,16 @@ captures/
 
 # Misc
 out/
+*.log
+
+# Security-sensitive files
+*.jks
+*.pem
+*.p12
+*.key
+*.der
+.env
+.env.*
+
+# Generated release artifacts
+app/release/
